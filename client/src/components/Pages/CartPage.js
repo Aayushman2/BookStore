@@ -152,14 +152,32 @@ const CartPage = () => {
     const userAddress = auth?.user?.walletAddress;
     if (userAddress) {
       try {
+        console.log("Fetching token balance for address:", userAddress);
         const { data } = await axios.get(`/api/v1/book/getBalance?address=${userAddress}&timestamp=${Date.now()}`);
-        setTokenBalance(data.balance);
-        console.log("Fetched balance: ", data.balance);
+        
+        if (data && data.balance !== undefined) {
+          setTokenBalance(data.balance);
+          console.log("Fetched balance: ", data.balance);
+        } else {
+          console.error("Invalid response format:", data);
+          toast.error("Invalid response from server");
+        }
         
       } catch (error) {
         console.error("Error fetching token balance:", error);
-        toast.error("Failed to fetch token balance.");
+        
+        // Provide more specific error messages
+        if (error.response) {
+          const errorMessage = error.response.data?.error || error.response.data?.message || "Server error";
+          toast.error(`Failed to fetch token balance: ${errorMessage}`);
+        } else if (error.request) {
+          toast.error("Network error: Unable to connect to server");
+        } else {
+          toast.error("Failed to fetch token balance");
+        }
       }
+    } else {
+      console.log("No wallet address available for token balance fetch");
     }
   };
 

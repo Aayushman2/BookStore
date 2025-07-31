@@ -153,21 +153,43 @@ router.post("/mintTokens", async (req, res) => {
 
 router.get("/getBalance", async (req, res) => {
   try {
-    
     const { address } = req.query;
     console.log("Request Query:", address);
-    if(!address){
+    
+    if (!address) {
       return res.status(400).json({ error: "Address parameter is required" });
     }
-  const balance = await loyaltyToken.methods.balanceOf(address).call();
-  const humanReadableBalance = web3.utils.fromWei(balance, "ether");
 
-  res.json({ balance: Number(humanReadableBalance).toFixed()});
+    // Validate address format
+    if (!web3.utils.isAddress(address)) {
+      return res.status(400).json({ error: "Invalid wallet address format" });
+    }
+
+    // Check if contract is properly initialized
+    if (!loyaltyToken || !loyaltyToken.methods) {
+      console.error("LoyaltyToken contract not properly initialized");
+      return res.status(500).json({ error: "Contract not available" });
+    }
+
+    const balance = await loyaltyToken.methods.balanceOf(address).call();
+    const humanReadableBalance = web3.utils.fromWei(balance, "ether");
+
+    console.log(`Balance for ${address}: ${humanReadableBalance}`);
+    res.json({ balance: Number(humanReadableBalance).toFixed() });
+    
   } catch (error) {
     console.error("Error in /getBalance route:", error);
-    res.status(500).json({ error: "Failed to fetch balance" });
+    
+    // Provide more specific error messages
+    if (error.message.includes("Invalid JSON RPC response")) {
+      return res.status(503).json({ error: "Blockchain network unavailable" });
+    }
+    if (error.message.includes("execution reverted")) {
+      return res.status(400).json({ error: "Invalid contract interaction" });
+    }
+    
+    res.status(500).json({ error: "Failed to fetch balance", details: error.message });
   }
-  
 });
 
 
@@ -464,5 +486,42 @@ router.get("/discountStatus", async(req,res) => {
 //   }
 // });
 
+// Health check endpoint for blockchain connection
+router.get("/health", async (req, res) => {
+  try {
+    // Test blockchain connection
+    const isListening = await web3.eth.net.isListening();
+    const blockNumber = await web3.eth.getBlockNumber();
+    
+    // Test contract connection
+    const contractAddress = loyaltyToken.options.address;
+    const code = await web3.eth.getCode(contractAddress);
+    const isContractDeployed = code !== '0x';
+    
+    res.json({
+      status: "healthy",
+      blockchain: {
+        connected: isListening,
+        blockNumber: blockNumber,
+        network: await web3.eth.net.getNetworkType()
+      },
+      contract: {
+        address: contractAddress,
+        deployed: isContractDeployed
+      },
+      environment: {
+        contract1Address: process.env.CONTRACT1_ADDRESS ? "Set" : "Missing",
+        contract2Address: process.env.CONTRACT2_ADDRESS ? "Set" : "Missing",
+        adminWalletAddress: process.env.ADMIN_WALLET_ADDRESS ? "Set" : "Missing"
+      }
+    });
+  } catch (error) {
+    console.error("Health check failed:", error);
+    res.status(500).json({
+      status: "unhealthy",
+      error: error.message
+    });
+  }
+});
 
 export default router;

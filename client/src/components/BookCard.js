@@ -28,7 +28,7 @@ const BookCard = ({ book }) => {
         _id: book._id,
         name: book.name,
         slug: book.slug,
-        author: book.author.name,
+       author: book.author.name,
         price: book.price,
         numberOfItems: 1,
       });
@@ -50,7 +50,7 @@ const BookCard = ({ book }) => {
       updatedWishlist.push({
         _id: book._id,
         name: book.name,
-        author: book.author.name,
+        author: book.author?.name || 'Unknown Author',
         price: book.price,
         numberOfItems: 1,
       });
@@ -78,7 +78,7 @@ const BookCard = ({ book }) => {
           {book.name}
         </h5>
         <p className="card-text mb-2 text-lg text-blue-900 px-4">
-          {book.author.name}
+          {book.author?.name || 'Unknown Author'}
         </p>
         <p className="price mb-2 font-bold text-xl px-4">NRs. {book.price}</p>
         <div className="buttons flex justify-end gap-4 px-4 text-lg mb-4">
