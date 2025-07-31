@@ -153,7 +153,6 @@ router.post("/mintTokens", async (req, res) => {
 
 router.get("/getBalance", async (req, res) => {
   try {
-<<<<<<< HEAD
     const { address } = req.query;
     console.log("Request Query:", address);
     
@@ -191,23 +190,6 @@ router.get("/getBalance", async (req, res) => {
     
     res.status(500).json({ error: "Failed to fetch balance", details: error.message });
   }
-=======
-    
-    const { address } = req.query;
-    console.log("Request Query:", address);
-    if(!address){
-      return res.status(400).json({ error: "Address parameter is required" });
-    }
-  const balance = await loyaltyToken.methods.balanceOf(address).call();
-  const humanReadableBalance = web3.utils.fromWei(balance, "ether");
-
-  res.json({ balance: Number(humanReadableBalance).toFixed()});
-  } catch (error) {
-    console.error("Error in /getBalance route:", error);
-    res.status(500).json({ error: "Failed to fetch balance" });
-  }
-  
->>>>>>> origin/main
 });
 
 
