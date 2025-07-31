@@ -152,7 +152,6 @@ const CartPage = () => {
     const userAddress = auth?.user?.walletAddress;
     if (userAddress) {
       try {
-<<<<<<< HEAD
         console.log("Fetching token balance for address:", userAddress);
         const { data } = await axios.get(`/api/v1/book/getBalance?address=${userAddress}&timestamp=${Date.now()}`);
         
@@ -179,16 +178,7 @@ const CartPage = () => {
       }
     } else {
       console.log("No wallet address available for token balance fetch");
-=======
-        const { data } = await axios.get(`/api/v1/book/getBalance?address=${userAddress}&timestamp=${Date.now()}`);
-        setTokenBalance(data.balance);
-        console.log("Fetched balance: ", data.balance);
-        
-      } catch (error) {
-        console.error("Error fetching token balance:", error);
-        toast.error("Failed to fetch token balance.");
-      }
->>>>>>> origin/main
+    }
     }
   };
 
