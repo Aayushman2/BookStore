@@ -504,7 +504,7 @@ router.get("/discountStatus", async(req,res) => {
 //   }
 // });
 
-<<<<<<< HEAD
+
 // Health check endpoint for blockchain connection
 router.get("/health", async (req, res) => {
   try {
@@ -542,7 +542,5 @@ router.get("/health", async (req, res) => {
     });
   }
 });
-=======
->>>>>>> origin/main
 
 export default router;
