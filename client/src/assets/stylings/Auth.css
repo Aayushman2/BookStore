@@ -1,0 +1,11 @@
+.signup {
+  color: #004d80;
+}
+.register-form {
+  background-color: #dce7ee;
+  color: #004d80;
+
+  button {
+    background-color: #004480;
+  }
+}
