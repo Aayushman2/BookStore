@@ -12,7 +12,7 @@ import FictionImg from "../assets/images/genres/fiction.png";
 import FantasyImg from "../assets/images/genres/fantasy.png";
 import SciFiImg from "../assets/images/genres/sciencefic.png";
 import DystopianImg from "../assets/images/genres/dystopian.png";
-import ActionImg from "../assets/images/genres/adventure.png";
+import AdevntureImg from "../assets/images/genres/adventure.png";
 import MysteryImg from "../assets/images/genres/mystery.png";
 import HorrorImg from "../assets/images/genres/horror.png";
 import HistoricalFicImg from "../assets/images/genres/historical fic.png";
@@ -36,6 +36,7 @@ import ParentingImg from "../assets/images/genres/parents-preparing-cute-daughte
 import ScienceImg from "../assets/images/genres/science-lab-objects_23-214848831.png";
 import DramaImg from "../assets/images/genres/image.png";
 import Thriller from "../assets/images/genres/thriller.jpg";
+import LGBTImg from "../assets/images/genres/lgbt.png";
 
 const Genre = () => {
   const genreImages = {
@@ -44,29 +45,30 @@ const Genre = () => {
     "Science-Fiction": SciFiImg,
     Drama: DramaImg,
     Dystopian: DystopianImg,
-    "Action & Adventure": ActionImg,
+   Adventure:AdevntureImg,
     Mystery: MysteryImg,
     Horror: HorrorImg,
     "Historical Fiction": HistoricalFicImg,
     Romance: RomanceImg,
-    "Graphic Novel": GraphicNovelImg,
+    "Graphic Novels": GraphicNovelImg,
     "Short Story": ShortStoryImg,
     "Young Adult": YoungAdultsImg,
     "Children’s": ChildrenImg,
     "Memoir & Autobiography": MemoirImg,
-    "Food & Drink": FoodImg,
+    "Food": FoodImg,
     "Art & Photography": ArtImg,
     "Self-help": SelfHelpImg,
     History: HistoryImg,
+    LGBT:LGBTImg,
     Travel: TravelImg,
-    "True Crime": CrimeImg,
-    Humor: HumorImg,
+    "Crime": CrimeImg,
+    Funny: HumorImg,
     "Guide and How-to ": GuideImg,
     "Religion & Spirituality": SpiritualityImg,
-    "Humanities & Social Sciences": PhilosophyImg,
+    "Philosophy": PhilosophyImg,
     "Parenting & Families": ParentingImg,
     "Science & Technology": ScienceImg,
-    "Thriller & Suspense": Thriller,
+    "Thriller": Thriller,
   };
 
   const [startIndex, setStartIndex] = useState(0);
